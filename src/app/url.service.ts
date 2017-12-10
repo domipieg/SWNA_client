@@ -16,4 +16,11 @@ export class UrlService {
         return this.http.post('api/sendLink', url)
     }
 
+    sendWord(word: string) {
+        return this.http.post('api/sendWord', word);
+    }
+
+    sendCredentials(username: string, password: string) {
+        return this.http.post('/login', username, password);
+    }
 }
