@@ -9,13 +9,13 @@ import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'login',
-    templateUrl: './login.html',
+    selector: 'register',
+    templateUrl: './register.html',
     styleUrls: ['./app.component.css'],
     providers: [UrlService]
 })
 
-export class LoginComponent {
+export class RegisterComponent {
 
     constructor(private urlService: UrlService, private http: Http, private router: Router,
         private authenticationService: AuthenticationService) { }
@@ -29,25 +29,11 @@ export class LoginComponent {
         this.authenticationService.logout();
     }
 
-    loading = false;
-    error = '';
-
-    sendCredentials(username: string, password: string) {
+    register(username: string, password: string) {
         this.user.username = username;
         this.user.password = password;
-        this.loading = true;
-        this.authenticationService.login(this.user.username, this.user.password)
-            .subscribe(result => {
-                if (result === true) {
-                    this.router.navigate(['/']);
-                } else {
-                    alert('Username or password is incorrect');
-                    this.loading = false;
-                }
-            }, error => {
-                this.loading = false;
-                alert('Error');
-            });
+        return this.http.post('http://localhost:8080/users/sign-up', this.user).subscribe();
     }
+
 }
 

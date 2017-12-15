@@ -1,26 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
-
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-
+import { Http, Headers, Response } from '@angular/http';
 import { Url } from './url';
-import { Word} from './word';
+import { Word } from './word';
+
+import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class UrlService {
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private authenticationService: AuthenticationService) { }
+
+    private headers = new Headers({
+        'Content-Type': 'application/json',
+        'Authorization': this.authenticationService.getToken()
+    });
 
     sendLink(url: string) {
-        return this.http.post('api/sendLink', url)
+        this.loadHeaders()
+        return this.http.post('http://localhost:8080/api/sendLink', url, { headers: this.headers })
     }
 
     sendWord(word: string) {
-        return this.http.post('api/sendWord', word);
+        this.loadHeaders();
+        return this.http.post('http://localhost:8080/api/sendWord', word, { headers: this.headers });
     }
 
-    sendCredentials(username: string, password: string) {
-        return this.http.post('/login', username, password);
+    private loadHeaders() {
+        this.headers = new Headers({
+            'Content-Type': 'application/json',
+            'Authorization': this.authenticationService.getToken()
+        });
     }
 }
