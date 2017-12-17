@@ -27,6 +27,11 @@ export class UrlService {
         return this.http.post('http://localhost:8080/api/sendWord', word, { headers: this.headers });
     }
 
+     sendWordToTranslation(word: string) {
+        this.loadHeaders();
+        return this.http.post('http://localhost:8080/api/englishWord', word, { headers: this.headers });
+    }
+
     private loadHeaders() {
         this.headers = new Headers({
             'Content-Type': 'application/json',

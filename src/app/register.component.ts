@@ -32,7 +32,11 @@ export class RegisterComponent {
     register(username: string, password: string) {
         this.user.username = username;
         this.user.password = password;
-        return this.http.post('http://localhost:8080/users/sign-up', this.user).subscribe();
+        return this.http.post('http://localhost:8080/users/sign-up', this.user).subscribe(result => {
+            this.router.navigate(['/login']);
+        }, error => {
+            alert('Error');
+        });
     }
 
 }

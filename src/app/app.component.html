@@ -1,62 +1,67 @@
-<div class="container">
-
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-        <a class="navbar-brand" href="/">SWNA</a>
-      </div>
-      <div class="collapse navbar-collapse" id="myNavbar">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Home</a></li>
-        </ul>
-        <div *ngIf="getToken()">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="/" (click)="logout()">Wyloguj</a></li>
-          </ul>
-        </div>
-        <div *ngIf="!getToken()">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="/login" routerLinkActive="active">Login</a></li>
-            <li><a href="/register" routerLinkActive="active">Rejestracja</a></li>
-          </ul>
-        </div>
-      </div>
+      <a class="navbar-brand" href="/">SWNA</a>
     </div>
-  </nav>
-
-  <div class="jumbotron">
-    <div class="container text-center">
-      <h1>SWNA</h1>
-      <p>System Wspomagania Nauki Angielskiego...</p>
-    </div>
-  </div>
-  <div>
-    <router-outlet></router-outlet>
-  </div>
-  <div class="panel panel-primary">
-    <div class="panel-heading">Words</div>
-    <div class="panel-body">
-      <div>
-        <input [(ngModel)]="url.text" placeholder="Paste the URL">
-        <button type="button" class="btn btn-primary" (click)="sendEvent(url.text)">Parse</button>
-      </div>
-      <ul class="words list-group">
-        <li class="list-group-item" *ngFor="let word of words">
-          <div class="row">
-            <div class="col-sm-6">
-              {{word}}
-            </div>
-            <div class="col-sm-6">
-              <button type="button" class="btn btn-success" (click)="sendWord(word)" style="text-align: right">Add</button>
-            </div>
-          </div>
-        </li>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
       </ul>
+      <div *ngIf="getToken()">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/" (click)="logout()">Wyloguj</a></li>
+        </ul>
+      </div>
+      <div *ngIf="!getToken()">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/login" routerLinkActive="active">Login</a></li>
+          <li><a href="/register" routerLinkActive="active">Rejestracja</a></li>
+        </ul>
+      </div>
     </div>
+  </div>
+</nav>
+
+<div class="jumbotron">
+  <div class="container text-center">
+    <h1>SWNA</h1>
+    <p>System Wspomagania Nauki Angielskiego...</p>
+  </div>
+</div>
+<div>
+  <router-outlet></router-outlet>
+</div>
+<div class="panel panel-primary">
+  <div class="panel-heading">Words</div>
+  <div class="panel-body">
+    <div class="container">
+      <div class="input-group">
+        <input class="form-control" size="50" [(ngModel)]="url.text" placeholder="Paste the URL">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-primary" (click)="sendEvent(url.text)">Parse</button>
+        </div>
+      </div>
+    </div>
+    <br/>
+    <ul class="words list-group">
+      <li class="list-group-item" *ngFor="let word of words | paginate: { itemsPerPage: 10, currentPage: p }">
+        <div class="row">
+          <div class="col-sm-6">
+            {{word}}
+          </div>
+          <div class="col-sm-6">
+            <button type="button" class="btn btn-success" (click)="sendWord(word)" style="text-align: right">Dodaj do powtórek</button>
+            <button type="button" class="btn btn-warning" (click)="sendWordToTranslation(word)" style="text-align: right">Tłumacz</button>
+            <button type="button" class="btn btn-danger" style="text-align: right">Nie pokazuj więcej</button>
+          </div>
+        </div>
+      </li>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </ul>
   </div>
 </div>

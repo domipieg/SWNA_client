@@ -4,6 +4,7 @@ import { Url } from './url';
 import { Word } from './word';
 import { UrlService } from './url.service';
 import { AuthenticationService } from './authentication.service'
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,8 @@ import { AuthenticationService } from './authentication.service'
 })
 
 export class AppComponent {
-  constructor(private urlService: UrlService, private http: Http, private authenticationService: AuthenticationService) { }
+  constructor(private urlService: UrlService, private http: Http, private authenticationService: AuthenticationService,
+    private toastService: ToastrService) { }
   title = 'SWNA';
   url: Url = {
     text: ''
@@ -34,22 +36,47 @@ export class AppComponent {
 
   words = new Array<Word>();
   sendEvent(url) {
-    this.urlService.sendLink(url).subscribe(data => { this.words = data.json() as Word[] });
+    this.urlService.sendLink(url).subscribe(data => {
+      this.words = data.json() as Word[]
+    }, error => {
+      this.toastService.error("Błąd!")
+    });
   }
 
   sendWord(word: string) {
     var i = 0;
     var wordToSend = "";
-    while(i < word.length) {
+    while (i < word.length) {
       if (word[i] == " ") {
-        wordToSend = word.substr(i+1, word.length);
+        wordToSend = word.substr(i + 1, word.length);
         break;
       }
-        i++;
+      i++;
     }
-    this.urlService.sendWord(wordToSend).subscribe(data => { this.words = data.json() as Word[] });;
+    this.urlService.sendWord(wordToSend).subscribe(result => {
+      this.toastService.success("Słowo zostało dodane");
+    }, error => {
+      this.toastService.error("Błąd!")
+    });
+
   }
 
+  sendWordToTranslation(word: string) {
+    var i = 0;
+    var wordToSend = "";
+    while (i < word.length) {
+      if (word[i] == " ") {
+        wordToSend = word.substr(i + 1, word.length);
+        break;
+      }
+      i++;
+    }
+    this.urlService.sendWordToTranslation(wordToSend).subscribe(result => {
+      this.toastService.info(result.text());
+    }, error => {
+      this.toastService.error("Błąd!")
+    });
+  }
 }
 
 
