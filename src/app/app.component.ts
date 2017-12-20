@@ -43,6 +43,14 @@ export class AppComponent {
     });
   }
 
+   wordsExist() {
+    if (this.words.length == 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   sendWord(word: string) {
     var i = 0;
     var wordToSend = "";
@@ -55,6 +63,24 @@ export class AppComponent {
     }
     this.urlService.sendWord(wordToSend).subscribe(result => {
       this.toastService.success("Słowo zostało dodane");
+    }, error => {
+      this.toastService.error("Błąd!")
+    });
+
+  }
+
+  deleteWord(word: string) {
+    var i = 0;
+    var wordToSend = "";
+    while (i < word.length) {
+      if (word[i] == " ") {
+        wordToSend = word.substr(i + 1, word.length);
+        break;
+      }
+      i++;
+    }
+    this.urlService.deleteWord(wordToSend).subscribe(result => {
+      this.toastService.success("Słowo zostało usunięte");
     }, error => {
       this.toastService.error("Błąd!")
     });

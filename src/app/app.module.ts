@@ -4,18 +4,22 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login.component';
 import { RegisterComponent } from './register.component';
+import { AddedWordsComponent } from './added.component';
+import { DeletedWordsComponent } from './deleted.component';
 import { AuthenticationService } from './authentication.service';
 
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+   { path: 'added', component: AddedWordsComponent },
+    { path: 'deleted', component: DeletedWordsComponent },
   { path: 'app-root', component: AppComponent }
 ];
 
@@ -23,7 +27,9 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AddedWordsComponent,
+    DeletedWordsComponent
   ],
   imports: [
     BrowserModule,

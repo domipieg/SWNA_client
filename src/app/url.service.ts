@@ -24,12 +24,42 @@ export class UrlService {
 
     sendWord(word: string) {
         this.loadHeaders();
-        return this.http.post('http://localhost:8080/api/sendWord', word, { headers: this.headers });
+        return this.http.post('http://localhost:8080/api/addWord', word, { headers: this.headers });
     }
 
      sendWordToTranslation(word: string) {
         this.loadHeaders();
         return this.http.post('http://localhost:8080/api/englishWord', word, { headers: this.headers });
+    }
+
+    deleteWord(word: string) {
+        this.loadHeaders();
+        return this.http.post('http://localhost:8080/api/addToDeleteWord', word, { headers: this.headers });
+    }
+
+    getAddedWords() {
+        this.loadHeaders();
+        return this.http.get('http://localhost:8080/api/getAddedWords', { headers: this.headers });
+    }
+
+    getDeletedWords() {
+        this.loadHeaders();
+        return this.http.get('http://localhost:8080/api/getDeletedWord', { headers: this.headers });
+    }
+
+    deleteDeletedWord(word: string) {
+        this.loadHeaders();
+        return this.http.post('http://localhost:8080/api/deleteDeletedWord', word, { headers: this.headers });
+    }
+
+    deleteAddedWord(word: string) {
+        this.loadHeaders();
+        return this.http.post('http://localhost:8080/api/deleteAddedWord', word, { headers: this.headers });
+    }
+
+     repeated(id: number) {
+        this.loadHeaders();
+        return this.http.post('http://localhost:8080/api/repeated', id, { headers: this.headers });
     }
 
     private loadHeaders() {

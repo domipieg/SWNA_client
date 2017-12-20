@@ -1,0 +1,18 @@
+<div class="panel panel-primary">
+  <div class="panel-heading">Usunięte słowa</div>
+  <div class="panel-body">
+    <ul class="words list-group">
+      <li class="list-group-item" *ngFor="let word of words | paginate: { itemsPerPage: 10, currentPage: p }">
+        <div class="row">
+          <div class="col-sm-6">
+            {{word.word}}
+          </div>
+          <div class="col-sm-6">
+            <button type="button" (click)="deleteDeletedWord(word.word)" class="btn btn-danger" style="text-align: right">Usuń</button>
+          </div>
+        </div>
+      </li>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </ul>
+  </div>
+</div>

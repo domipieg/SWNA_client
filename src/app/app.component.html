@@ -10,7 +10,18 @@
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
+        <div *ngIf="getToken()">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a type="button" class="btn btn-primary" href="/added" routerLinkActive="active">Dodane słowa</a></li>
+            <li><a type="button" class="btn btn-primary" href="/deleted" routerLinkActive="active">Usunięte słowa</a></li>
+          </ul>
+        </div>
+        <div *ngIf="!getToken()">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active"><a href="#">Home</a></li>
+          </ul>
+        </div>
       </ul>
       <div *ngIf="getToken()">
         <ul class="nav navbar-nav navbar-right">
@@ -30,38 +41,41 @@
 <div class="jumbotron">
   <div class="container text-center">
     <h1>SWNA</h1>
-    <p>System Wspomagania Nauki Angielskiego...</p>
+    <p>System Wspomagania Nauki Angielskiego</p>
   </div>
 </div>
 <div>
   <router-outlet></router-outlet>
 </div>
 <div class="panel panel-primary">
-  <div class="panel-heading">Words</div>
+  <div class="panel-heading">Parsowanie artykułu</div>
   <div class="panel-body">
     <div class="container">
       <div class="input-group">
-        <input class="form-control" size="50" [(ngModel)]="url.text" placeholder="Paste the URL">
+        <input class="form-control" size="50" [(ngModel)]="url.text" placeholder="Wklej URL artykułu z BBC">
         <div class="input-group-btn">
-          <button type="button" class="btn btn-primary" (click)="sendEvent(url.text)">Parse</button>
+          <button type="button" class="btn btn-primary" (click)="sendEvent(url.text)">Parsuj</button>
         </div>
       </div>
     </div>
     <br/>
-    <ul class="words list-group">
-      <li class="list-group-item" *ngFor="let word of words | paginate: { itemsPerPage: 10, currentPage: p }">
-        <div class="row">
-          <div class="col-sm-6">
-            {{word}}
+    <div *ngIf="!wordsExist()">
+      <ul class="words list-group">
+        Liczba wystąpień i słowo
+        <li class="list-group-item" *ngFor="let word of words | paginate: { itemsPerPage: 10, currentPage: p }">
+          <div class="row">
+            <div class="col-sm-6">
+              {{word}}
+            </div>
+            <div class="col-sm-6">
+              <button type="button" class="btn btn-success" (click)="sendWord(word)" style="text-align: right">Dodaj do powtórek</button>
+              <button type="button" class="btn btn-warning" (click)="sendWordToTranslation(word)" style="text-align: right">Tłumacz</button>
+              <button type="button" class="btn btn-danger" (click)="deleteWord(word)" style="text-align: right">Nie pokazuj więcej</button>
+            </div>
           </div>
-          <div class="col-sm-6">
-            <button type="button" class="btn btn-success" (click)="sendWord(word)" style="text-align: right">Dodaj do powtórek</button>
-            <button type="button" class="btn btn-warning" (click)="sendWordToTranslation(word)" style="text-align: right">Tłumacz</button>
-            <button type="button" class="btn btn-danger" style="text-align: right">Nie pokazuj więcej</button>
-          </div>
-        </div>
-      </li>
-      <pagination-controls (pageChange)="p = $event"></pagination-controls>
-    </ul>
+        </li>
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      </ul>
+    </div>
   </div>
 </div>

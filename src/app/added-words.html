@@ -1,0 +1,27 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">Dodane słowa</div>
+    <div class="panel-body">
+        <ul class="words list-group">
+            <li class="list-group-item" *ngFor="let word of words | paginate: { itemsPerPage: 10, currentPage: p }">
+                <div class="row">
+                    <div *ngIf="dateOfExpiration(word)">
+                        <div class="col-sm-6" >
+                            {{word.word}} <strong style="color: red"> Powtórz słowo!</strong>
+                        </div>
+                    </div>
+                    <div *ngIf="!dateOfExpiration(word)">
+                        <div class="col-sm-6">
+                            {{word.word}}
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-success" (click)="repeated(word.id)" style="text-align: right">Powtórzyłem!</button>
+                        <button type="button" class="btn btn-warning" (click)="sendWordToTranslation(word.word)" style="text-align: right">Tłumacz</button>
+                        <button type="button" class="btn btn-danger" (click)="deleteAddedWord(word.word)" style="text-align: right">Usuń z powtórek</button>
+                    </div>
+                </div>
+            </li>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </ul>
+    </div>
+</div>

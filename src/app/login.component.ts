@@ -7,6 +7,7 @@ import { User } from './user';
 import { UrlService } from './url.service';
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'login',
@@ -18,7 +19,7 @@ import { Router } from '@angular/router';
 export class LoginComponent {
 
     constructor(private urlService: UrlService, private http: Http, private router: Router,
-        private authenticationService: AuthenticationService) { }
+        private authenticationService: AuthenticationService, private toastService: ToastrService) { }
 
     user: User = {
         username: '',
@@ -46,7 +47,7 @@ export class LoginComponent {
                 }
             }, error => {
                 this.loading = false;
-                alert('Error');
+                this.toastService.error("Błąd logowania")
             });
     }
 }

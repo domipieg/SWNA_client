@@ -7,6 +7,7 @@ import { User } from './user';
 import { UrlService } from './url.service';
 import { AuthenticationService } from './authentication.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'register',
@@ -18,7 +19,7 @@ import { Router } from '@angular/router';
 export class RegisterComponent {
 
     constructor(private urlService: UrlService, private http: Http, private router: Router,
-        private authenticationService: AuthenticationService) { }
+        private authenticationService: AuthenticationService, private toastService: ToastrService) { }
 
     user: User = {
         username: '',
@@ -35,7 +36,7 @@ export class RegisterComponent {
         return this.http.post('http://localhost:8080/users/sign-up', this.user).subscribe(result => {
             this.router.navigate(['/login']);
         }, error => {
-            alert('Error');
+            this.toastService.error("Błędna rejestracja")
         });
     }
 
