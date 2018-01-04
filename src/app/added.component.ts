@@ -17,10 +17,11 @@ import { Router } from '@angular/router';
 })
 
 export class AddedWordsComponent {
-
+    
     constructor(private urlService: UrlService, private http: Http, private router: Router,
         private toastService: ToastrService) { }
 
+    public p;
 
     words = new Array<Word>();
     ngOnInit() {

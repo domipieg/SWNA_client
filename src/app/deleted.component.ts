@@ -21,6 +21,8 @@ export class DeletedWordsComponent {
     constructor(private urlService: UrlService, private http: Http, private router: Router,
         private toastService: ToastrService) { }
 
+    public p;
+
     words = new Array<Word>();
     ngOnInit() {
         this.urlService.getDeletedWords().subscribe(data => {

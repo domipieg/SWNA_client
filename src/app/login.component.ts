@@ -21,6 +21,9 @@ export class LoginComponent {
     constructor(private urlService: UrlService, private http: Http, private router: Router,
         private authenticationService: AuthenticationService, private toastService: ToastrService) { }
 
+    public username = "";
+    public password = "";
+
     user: User = {
         username: '',
         password: ''
